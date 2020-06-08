@@ -1,5 +1,5 @@
 #!/usr/bin/env bash
-source ./select_option.sh
+source ./helpers/select_option.sh
 
 function select_branch {
   echo "Select a branch to checkout"

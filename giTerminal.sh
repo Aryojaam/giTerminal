@@ -1,6 +1,6 @@
 #!/usr/bin/env bash
-source ./select_option.sh
-source ./select_branch.sh
+source ./helpers/select_option.sh
+source ./helpers/select_branch.sh
 
 commands=('Select branch' 'Status')
 
