@@ -1,23 +1,15 @@
 #!/usr/bin/env bash
 source ./select_option.sh
 
-arr=()
-
 function select_branch {
   echo "Select a branch to checkout"
 
-  branches=$(ls -A1 .git/refs/heads/)
+  branches=$(ls -A .git/refs/heads/)
 
-  for line in "$branches"; do
-		arr+=("$line")
-  done
-
-  options=($arr)
+  options=($branches)
 
   select_option "${options[@]}"
   choice=$?
 
   git checkout "${options[$choice]}"
 }
-
-select_branch
