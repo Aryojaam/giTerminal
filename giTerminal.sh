@@ -1,6 +1,6 @@
 #!/usr/bin/env bash
-source ./helpers/select_option.sh
-source ./helpers/select_branch.sh
+source ~/giTerminal/helpers/select_option.sh
+source ~/giTerminal/helpers/select_branch.sh
 
 commands=('Select branch' 'Status')
 
