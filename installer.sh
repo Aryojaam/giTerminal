@@ -5,6 +5,7 @@
 
 function copyFiles {
     cp ./giTerminal.sh ~/giTerminal/giTerminal
+    cp ./updater.sh ~/giTerminal/updater
     cp -r ./helpers ~/giTerminal/
 }
 
@@ -14,16 +15,19 @@ then
    rcFile=~/".bash_profile"
 fi
 
-aliasString="alias giTerminal='~/giTerminal/giTerminal'"
-aliasFound=$(cat $rcFile | grep giTerminal)
+mainAlias="alias giTerminal='~/giTerminal/giTerminal'"
+updaterAlias="alias giTerminalUpdater='~/giTerminal/updater'"
+aliasFound=$(cat $rcFile | grep giTerminal=)
 
-if [ "$aliasFound" == "$aliasString" ]; then
-    echo "Updating"
+if [ "$aliasFound" == "$mainAlias" ]; then
+    echo "Updating from local files. For a repo update, use giTerminalUpdater command"
     copyFiles
 else
-    echo $aliasString >> ~/.bashrc
+    echo $mainAlias >> $rcFile
+    echo $updaterAlias >> $rcFile
+    echo $
     mkdir ~/giTerminal
     copyFiles
-    exec bash
+    source $rcFile
     echo "giTerminal installed successfully"
 fi
