@@ -25,9 +25,8 @@ if [ "$aliasFound" == "$mainAlias" ]; then
 else
     echo $mainAlias >> $rcFile
     echo $updaterAlias >> $rcFile
-    echo $
     mkdir ~/giTerminal
     copyFiles
-    source $rcFile
     echo "giTerminal installed successfully"
+    exec bash
 fi
