@@ -1,7 +1,8 @@
-navigate to your downloads folder and clone giTerminal
-`cd ~/Downloads/ && git clone https://github.com/Aryojaam/giTerminal.git`
+## Installation
+1. clone giTerminal
+`git clone https://github.com/Aryojaam/giTerminal.git`
 
-then run the installer by
+2. run the installer by
 `cd giTerminal && ./installer`
 
 you can now use giTerminal by running `giTerminal` in your terminal :)
