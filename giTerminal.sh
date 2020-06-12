@@ -2,8 +2,9 @@
 source ~/giTerminalExecutables/helpers/select_option.sh
 source ~/giTerminalExecutables/helpers/select_branch.sh
 source ~/giTerminalExecutables/helpers/select_remote_branch.sh
+source ~/giTerminalExecutables/helpers/delete_branch.sh
 
-commands=('Select branch' 'Select remote branch' 'Status')
+commands=('Select branch' 'Select remote branch' 'Delete branch' 'Status')
 
 function navigator {
   echo "What do you wanna do?"
@@ -14,7 +15,8 @@ function navigator {
 	case "$choice" in
 		0) select_branch ;;
 		1) select_remote_branch ;;
-		2) eval "git status" ;;
+		2) delete_branch ;;
+		3) eval "git status" ;;
 	esac
 }
 
