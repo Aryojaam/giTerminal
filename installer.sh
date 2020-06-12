@@ -19,7 +19,7 @@ then
 fi
 
 mainAlias="alias giTerminal='~/$mainDirectory/giTerminal'"
-updaterAlias="alias giTerminalUpdater='~/$mineDirectory/updater'"
+updaterAlias="alias giTerminalUpdater='~/$mainDirectory/updater'"
 aliasFound=$(cat $rcFile | grep giTerminal=)
 
 if [ "$aliasFound" == "$mainAlias" ]; then
