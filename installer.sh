@@ -2,11 +2,14 @@
 
 # sudo cp ./giTerminal.sh /usr/local/bin/giTerminal #I don't like using sudo
 # sudo cp -r ./helpers/ /usr/local/bin/ 
+mainDirectory="giTerminalExecutables"
 
 function copyFiles {
-    cp ./giTerminal.sh ~/giTerminalExecutables/giTerminal
-    cp ./updater.sh ~/giTerminalExecutables/updater
-    cp -r ./helpers ~/giTerminalExecutables/
+    cp ./giTerminal.sh ~/$mainDirectory/
+    mv ~/$mainDirectory/giTerminal.sh ~/$mainDirectory/giTerminal
+    cp ./updater.sh ~/$mainDirectory/
+    mv ~/$mainDirectory/updater.sh ~/$mainDirectory/updater
+    cp -r ./helpers ~/$mainDirectory/
 }
 
 rcFile=~/".bashrc"
@@ -15,8 +18,8 @@ then
    rcFile=~/".bash_profile"
 fi
 
-mainAlias="alias giTerminal='~/giTerminalExecutables/giTerminal'"
-updaterAlias="alias giTerminalUpdater='~/giTerminalExecutables/updater'"
+mainAlias="alias giTerminal='~/$mainDirectory/giTerminal'"
+updaterAlias="alias giTerminalUpdater='~/$mineDirectory/updater'"
 aliasFound=$(cat $rcFile | grep giTerminal=)
 
 if [ "$aliasFound" == "$mainAlias" ]; then
@@ -25,7 +28,7 @@ if [ "$aliasFound" == "$mainAlias" ]; then
 else
     echo $mainAlias >> $rcFile
     echo $updaterAlias >> $rcFile
-    mkdir ~/giTerminal
+    mkdir ~/giTerminalExecutables
     copyFiles
     echo "giTerminal installed successfully"
     exec bash
