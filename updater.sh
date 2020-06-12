@@ -3,7 +3,7 @@
 function update {
     git clone https://github.com/Aryojaam/giTerminal.git giTerminalUpdate
     cd giTerminalUpdate
-    cp ./giTerminal.sh ~/giTerminal/
+    cp ./giTerminal.sh ~/giTerminal/giTerminal
     cp ./updater.sh ~/giTerminal/
     cp -r ./helpers ~/giTerminal/
     cd ..
