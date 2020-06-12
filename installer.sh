@@ -4,9 +4,9 @@
 # sudo cp -r ./helpers/ /usr/local/bin/ 
 
 function copyFiles {
-    cp ./giTerminal.sh ~/giTerminal/giTerminal
-    cp ./updater.sh ~/giTerminal/updater
-    cp -r ./helpers ~/giTerminal/
+    cp ./giTerminal.sh ~/giTerminalExecutables/giTerminal
+    cp ./updater.sh ~/giTerminalExecutables/updater
+    cp -r ./helpers ~/giTerminalExecutables/
 }
 
 rcFile=~/".bashrc"
@@ -15,8 +15,8 @@ then
    rcFile=~/".bash_profile"
 fi
 
-mainAlias="alias giTerminal='~/giTerminal/giTerminal'"
-updaterAlias="alias giTerminalUpdater='~/giTerminal/updater'"
+mainAlias="alias giTerminal='~/giTerminalExecutables/giTerminal'"
+updaterAlias="alias giTerminalUpdater='~/giTerminalExecutables/updater'"
 aliasFound=$(cat $rcFile | grep giTerminal=)
 
 if [ "$aliasFound" == "$mainAlias" ]; then
