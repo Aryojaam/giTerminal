@@ -1,13 +1,13 @@
 #!/usr/bin/env bash
 
 function update {
-    git clone https://github.com/Aryojaam/giTerminal.git giTerminalUpdate
-    cd giTerminalUpdate
-    cp ./giTerminal.sh ~/giTerminalExecutables/giTerminal
-    cp ./updater.sh ~/giTerminalExecutables/
-    cp -r ./helpers ~/giTerminalExecutables/
+    git clone https://github.com/Aryojaam/giterminal.git giterminalUpdate
+    cd giterminalUpdate
+    cp ./giterminal.sh ~/.giterminal/giterminal
+    cp ./updater.sh ~/.giterminal/
+    cp -r ./helpers ~/.giterminal/
     cd ..
-    rm -rf giTerminalUpdate
+    rm -rf giterminalUpdate
 }
 
 update

@@ -1,5 +1,5 @@
 #!/usr/bin/env bash
-source ~/giTerminalExecutables/helpers/select_option.sh
+source ~/.giterminal/helpers/select_option.sh
 
 function select_remote_branch {
   echo "fetching all remotes please wait..."

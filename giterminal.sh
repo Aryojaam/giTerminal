@@ -1,9 +1,9 @@
 #!/usr/bin/env bash
-source ~/giTerminalExecutables/helpers/select_option.sh
-source ~/giTerminalExecutables/helpers/select_branch.sh
-source ~/giTerminalExecutables/helpers/select_remote_branch.sh
-source ~/giTerminalExecutables/helpers/delete_branch.sh
-source ~/giTerminalExecutables/helpers/commit_changes.sh
+source ~/.giterminal/helpers/select_option.sh
+source ~/.giterminal/helpers/select_branch.sh
+source ~/.giterminal/helpers/select_remote_branch.sh
+source ~/.giterminal/helpers/delete_branch.sh
+source ~/.giterminal/helpers/commit_changes.sh
 
 commands=('Select branch' 'Select remote branch' 'Delete branch' 'Commit changes' 'Status')
 

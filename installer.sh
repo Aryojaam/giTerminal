@@ -1,12 +1,12 @@
 #!/usr/bin/env bash
 
-# sudo cp ./giTerminal.sh /usr/local/bin/giTerminal #I don't like using sudo
+# sudo cp ./giterminal.sh /usr/local/bin/giterminal #I don't like using sudo
 # sudo cp -r ./helpers/ /usr/local/bin/ 
-mainDirectory="giTerminalExecutables"
+mainDirectory=".giterminal"
 
 function copyFiles {
-    cp ./giTerminal.sh ~/$mainDirectory/
-    mv ~/$mainDirectory/giTerminal.sh ~/$mainDirectory/giTerminal
+    cp ./giterminal.sh ~/$mainDirectory/
+    mv ~/$mainDirectory/giterminal.sh ~/$mainDirectory/giterminal
     cp ./updater.sh ~/$mainDirectory/
     mv ~/$mainDirectory/updater.sh ~/$mainDirectory/updater
     cp -r ./helpers ~/$mainDirectory/
@@ -18,18 +18,18 @@ then
    rcFile=~/".bash_profile"
 fi
 
-mainAlias="alias giTerminal='~/$mainDirectory/giTerminal'"
-updaterAlias="alias giTerminalUpdater='~/$mainDirectory/updater'"
-aliasFound=$(cat $rcFile | grep giTerminal=)
+mainAlias="alias giterminal='~/$mainDirectory/giterminal'"
+updaterAlias="alias giterminalUpdater='~/$mainDirectory/updater'"
+aliasFound=$(cat $rcFile | grep giterminal=)
 
 if [ "$aliasFound" == "$mainAlias" ]; then
-    echo "Updating from local files. For a repo update, use giTerminalUpdater command"
+    echo "Updating from local files. For a repo update, use giterminalUpdater command"
     copyFiles
 else
     echo $mainAlias >> $rcFile
     echo $updaterAlias >> $rcFile
-    mkdir ~/giTerminalExecutables
+    mkdir ~/.giterminal
     copyFiles
-    echo "giTerminal installed successfully"
+    echo "giterminal installed successfully"
     exec bash
 fi
