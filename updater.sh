@@ -7,6 +7,7 @@ function update {
     cp ./updater.sh ~/.giterminal/
     cp -r ./helpers ~/.giterminal/
     cd ..
+    echo "removing cloned directory"
     rm -rf giterminalUpdate
 }
 
