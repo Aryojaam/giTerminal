@@ -1,11 +1,18 @@
 #!/usr/bin/env bash
 
+function addWordPadding {
+  for ((i=0;i<$1;i++)); do
+    printf " "
+  done
+}
+
 # Renders a text based list of options that can be selected by the
 # user using up, down and enter keys and returns the chosen option.
 #
 #   Arguments   : list of options, maximum of 256
 #                 "opt1" "opt2" ...
 #   Return value: selected index (0 for opt1, 1 for opt2 ...)
+# credits to https://unix.stackexchange.com/a/415155
 columns=3
 function select_option {
 
@@ -33,9 +40,8 @@ function select_option {
 		((rows--))
 	done
 
-	# find the longest word and make every word the same la
-	for opt;
-	do
+	# find the longest word within the options
+	for opt; do
 		if [ ${#opt} -ge $longestWord ]
 		then
 			longestWord=${#opt};
@@ -54,26 +60,23 @@ function select_option {
 	while true; do
 		# print options by overwriting the last lines
 		local idx=0
-        # navigate to the starting row to overwrite the lines
-        cursor_to $(($startrow))
+    # navigate to the starting row to overwrite the lines
+    cursor_to $(($startrow))
+
 		for opt; do
-            # Check if should go to the next row
-            if ! (($idx % $columns)); then
-                cursor_to $(($startrow + $idx / $columns))
-            fi
+      # Check if should go to the next row
+      if ! (($idx % $columns)); then
+          cursor_to $(($startrow + $idx / $columns))
+      fi
+
 			if [ $idx -eq $selected ]; then
 				print_selected "$opt"
-				# padding the string to its right
-				for ((i=0;i<longestWord-${#opt};i++)); do
-					printf " "
-				done
+				addWordPadding $((longestWord-${#opt}))
 			else
 				print_option "$opt"
-				# padding the string to its right
-				for ((i=0;i<longestWord-${#opt};i++)); do
-					printf " "
-				done
+				addWordPadding $((longestWord-${#opt}))
 			fi
+
 			((idx++))
 		done
 
@@ -81,18 +84,18 @@ function select_option {
 		case `key_input` in
 			enter) break;;
 			up)    
-                if [ $(($selected - $columns)) -ge 0 ];
-                then selected=$((selected-=$columns));
-                fi;; 
+        if [ $(($selected - $columns)) -ge 0 ];
+        then selected=$((selected-=$columns));
+        fi;; 
 			right)  
 				if [[ $((selected % columns)) -ne $((columns - 1)) ]] &&
-                   [[ $((selected + 1)) -ne $# ]];
-                then ((selected++));
-                fi;;
+           [[ $((selected + 1)) -ne $# ]];
+        then ((selected++));
+        fi;;
 			down)  ((selected+=$columns));
-                if [ $selected -ge $# ]; then selected=$(($selected % $columns)); fi;;
+        if [ $selected -ge $# ]; then selected=$(($selected % $columns)); fi;;
 			left)
-                if [ $((selected % $columns)) -ne 0 ]; then ((selected--)); fi;;
+        if [ $((selected % $columns)) -ne 0 ]; then ((selected--)); fi;;
 		esac
 	done
 
