@@ -26,11 +26,22 @@ function select_option {
 
 	# initially print empty new lines (scroll down if at bottom of screen)
 	# for opt; do printf "\n"; done
-    rows=$((($columns - 1 + $#) / $columns))
+    longestWord=0
+	rows=$((($columns - 1 + $#) / $columns))
 	while [ $rows -ne 0 ]; do
 		printf "\n"
 		((rows--))
 	done
+
+	# find the longest word and make every word the same la
+	for opt;
+	do
+		if [ ${#opt} -ge $longestWord ]
+		then
+			longestWord=${#opt};
+		fi
+	done
+
 	# determine current screen position for overwriting the options
 	local lastrow=`get_cursor_row`
 	local startrow=$(($lastrow - ($columns - 1 + $#) / $columns))
@@ -52,8 +63,16 @@ function select_option {
             fi
 			if [ $idx -eq $selected ]; then
 				print_selected "$opt"
+				# padding the string to its right
+				for ((i=0;i<longestWord-${#opt};i++)); do
+					printf " "
+				done
 			else
 				print_option "$opt"
+				# padding the string to its right
+				for ((i=0;i<longestWord-${#opt};i++)); do
+					printf " "
+				done
 			fi
 			((idx++))
 		done
