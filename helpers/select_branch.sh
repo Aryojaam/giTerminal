@@ -4,7 +4,7 @@ source ~/.giterminal/helpers/select_option.sh
 function select_branch {
   echo "Select a branch to checkout"
 
-  branches=$(ls -A .git/refs/heads/)
+  branches=$(ls -A $gitDirectoyPath/refs/heads/)
 
   options=($branches)
 

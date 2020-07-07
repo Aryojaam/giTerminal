@@ -6,14 +6,14 @@ function select_remote_branch {
   git fetch --all -q
 
   echo "Select a remote"
-  remotes=$(ls -A .git/refs/remotes/)
+  remotes=$(ls -A $gitDirectoyPath/refs/remotes/)
 
   options=($remotes)
   
   select_option "${options[@]}"
   choice=$?
 
-  branches=$(ls -A .git/refs/remotes/"${options[$choice]}")
+  branches=$(ls -A $gitDirectoyPath/refs/remotes/"${options[$choice]}")
   echo "Select a branch"
  
   branchOptions=($branches)
