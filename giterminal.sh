@@ -15,6 +15,9 @@ fi
 # set the path for .git folder of the project
 export gitDirectoyPath=`git rev-parse --git-dir`
 
+# select_option columns
+export columns=3
+
 commands=('Select branch' 'Select remote branch' 'Delete branch' 'Delete multiple branches' 'Commit changes' 'Status')
 
 function navigator {

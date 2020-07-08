@@ -2,7 +2,7 @@
 source ~/.giterminal/helpers/select_option.sh
 
 function delete_branch {
-  echo "Select a local branch to delete"
+  echo "Currenty on branch $(git rev-parse --abbrev-ref HEAD). Select a local branch to delete"
 
   branches=$(ls -A $gitDirectoyPath/refs/heads/)
 

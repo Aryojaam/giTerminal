@@ -1,10 +1,18 @@
 #!/usr/bin/env bash
-
-function addWordPadding {
-  for ((i=0;i<$1;i++)); do
-    printf " "
-  done
-}
+: ' 
+List of Functions and Variables defined somewhere else: 
+	- $columns is an exported variable in giterminal.sh
+	- ESC					From misc.sh
+	- cursor_blink_on		From misc.sh
+	- cursor_blink_off		From misc.sh
+	- cursor_to				From misc.sh
+	- print_option			From misc.sh
+	- print_selected		From misc.sh
+	- get_cursor_row		From misc.sh
+	- key_input				From misc.sh
+	- print_empty_rows		From misc.sh
+'
+source ~/.giterminal/helpers/misc.sh
 
 # Renders a text based list of options that can be selected by the
 # user using up, down and enter keys and returns the chosen option.
@@ -13,32 +21,12 @@ function addWordPadding {
 #                 "opt1" "opt2" ...
 #   Return value: selected index (0 for opt1, 1 for opt2 ...)
 # credits to https://unix.stackexchange.com/a/415155
-columns=3
 function select_option {
 
-	# little helpers for terminal print control and key input
-	ESC=$( printf "\033")
-	cursor_blink_on()  { printf "$ESC[?25h"; }
-	cursor_blink_off() { printf "$ESC[?25l"; }
-	cursor_to()        { printf "$ESC[$1;${2:-1}H"; }
-	print_option()     { printf "   $1 "; }
-	print_selected()   { printf "  $ESC[7m $1 $ESC[27m"; }
-	get_cursor_row()   { IFS=';' read -sdR -p $'\E[6n' ROW COL; echo ${ROW#*[}; }
-	key_input()        { read -s -n3 key 2>/dev/null >&2
-						 if [[ $key = $ESC[A ]]; then echo up;    fi
-						 if [[ $key = $ESC[B ]]; then echo down;  fi
-						 if [[ $key = $ESC[C ]]; then echo right;  fi
-						 if [[ $key = $ESC[D ]]; then echo left;  fi
-						 if [[ $key = ""     ]]; then echo enter; fi; }
-
 	# initially print empty new lines (scroll down if at bottom of screen)
-	# for opt; do printf "\n"; done
     longestWord=0
 	rows=$((($columns - 1 + $#) / $columns))
-	while [ $rows -ne 0 ]; do
-		printf "\n"
-		((rows--))
-	done
+	print_empty_rows $rows 
 
 	# find the longest word within the options
 	for opt; do

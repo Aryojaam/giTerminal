@@ -1,51 +1,42 @@
 #!/usr/bin/env bash
-function addWordPadding {
-  for ((i=0;i<$1;i++)); do
-    printf " "
-  done
-}
+: ' 
+List of Functions and Variables defined somewhere else: 
+	- gitDirectoyPath 		From giterminal.sh [exported variable] 
+	- columns 				From giterminal.sh [exported variable] 
+	- ESC					From misc.sh
+	- cursor_blink_on		From misc.sh
+	- cursor_blink_off		From misc.sh
+	- cursor_to				From misc.sh
+	- print_option			From misc.sh
+	- print_selected		From misc.sh
+	- get_cursor_row		From misc.sh
+	- key_input				From misc.sh
+	- print_empty_rows		From misc.sh
+'
+source ~/.giterminal/helpers/misc.sh
 
 # create an arrays of 0s with the same length as the parameters. The purpose is to save the marked elements.
 marked=()
 
-init_marked_array(){
+init_marked_array() {
   for i in "$@"
   do
       marked+=(0)
   done
 }
 
-columns=3
+# $columns is an exported variable in giterminal.sh
 # The function cannot be extracted into own file because returning an array in a function between files is a PAIN!!
+# Idea: extract the function into a file, set the array variable in file 
+# and then reference it from the caller file and see if the value is there.
 # credits to https://unix.stackexchange.com/a/415155
 function select_option_mult {
 
-	# little helpers for terminal print control and key input
-	ESC=$( printf "\033")
-	cursor_blink_on()  { printf "$ESC[?25h"; }
-	cursor_blink_off() { printf "$ESC[?25l"; }
-	cursor_to()        { printf "$ESC[$1;${2:-1}H"; }
-	print_option()     { printf "   $1 "; }
-	print_marked()     { printf "  *$1 "; }
-	print_marked_selected()   { printf "  $ESC[7m*$1 $ESC[27m"; }
-	print_selected()   { printf "  $ESC[7m $1 $ESC[27m"; }
-	get_cursor_row()   { IFS=';' read -sdR -p $'\E[6n' ROW COL; echo ${ROW#*[}; }
-	key_input()        { read -s -n3 key 2>/dev/null >&2
-						 if [[ $key = $ESC[A ]]; then echo up;    fi
-						 if [[ $key = $ESC[B ]]; then echo down;  fi
-						 if [[ $key = $ESC[C ]]; then echo right;  fi
-						 if [[ $key = $ESC[D ]]; then echo left;  fi
-						 if [[ $key = $ESC[H ]]; then echo home;  fi
-						 if [[ $key = ""     ]]; then echo enter; fi; }
-
 	# initially print empty new lines (scroll down if at bottom of screen)
-	# for opt; do printf "\n"; done
     longestWord=0
 	rows=$((($columns - 1 + $#) / $columns))
-	while [ $rows -ne 0 ]; do
-		printf "\n"
-		((rows--))
-	done
+	print_empty_rows $rows 
+
 
 	# find the longest word within the options
 	for opt; do
@@ -122,7 +113,7 @@ function select_option_mult {
 }
 
 function delete_multiple_branches {
-  echo "Mark branches with Home-key and then press return to delete them"
+  echo "Currenty on branch $(git rev-parse --abbrev-ref HEAD). Mark branches with Home-key and then press return to delete them"
 
   branches=$(ls -A $gitDirectoyPath/refs/heads/)
   options=($branches)
