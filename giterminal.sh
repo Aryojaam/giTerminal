@@ -17,8 +17,12 @@ export gitDirectoyPath=`git rev-parse --git-dir`
 
 # select_option columns
 export columns=3
+# trap 'clear"' SIGWINCH
 
-commands=('Select branch' 'Select remote branch' 'Delete branch' 'Delete multiple branches' 'Commit changes' 'Status')
+commands=(
+	'Select branch' 'Select remote branch' 'Delete branch'
+	'Delete multiple branches' 'Commit changes' 'Status'
+)
 
 function navigator {
   echo "What do you wanna do?"
