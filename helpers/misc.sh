@@ -21,7 +21,7 @@ key_input()        { read -s -n3 key 2>/dev/null >&2
             if [[ $key = $ESC[B ]]; then echo down;  fi
             if [[ $key = $ESC[C ]]; then echo right;  fi
             if [[ $key = $ESC[D ]]; then echo left;  fi
-            if [[ $key = $ESC[H ]]; then echo home;  fi
+            if [[ $key = ${ESC}OP ]]; then echo f1;  fi
             if [[ $key = ""     ]]; then echo enter; fi; }
 
 print_empty_rows() {

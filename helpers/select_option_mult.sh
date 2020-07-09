@@ -84,7 +84,7 @@ function select_option_mult {
 		# user key control
 		case `key_input` in
 			enter) break;;
-			home) marked[$selected]=$(( (marked[selected] + 1) % 2 ));;
+			f1) marked[$selected]=$(( (marked[selected] + 1) % 2 ));;
 			up)    
 				if [ $((selected - columns)) -ge 0 ];
 				then selected=$((selected-=columns));

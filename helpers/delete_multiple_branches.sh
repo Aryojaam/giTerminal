@@ -6,7 +6,7 @@ List of Functions and Variables defined somewhere else:
 '
 
 function delete_multiple_branches {
-  echo "Currenty on branch $(git rev-parse --abbrev-ref HEAD). Mark branches with Home-key and then press return to delete them"
+  echo "Currenty on branch $(git rev-parse --abbrev-ref HEAD). Mark branches with F1-key and then press return to delete them"
 
   branches=$(ls -A $gitDirectoyPath/refs/heads/)
   options=($branches)
