@@ -26,19 +26,19 @@ key_input() {
   key+=${k1}${k2}${k3}
 
   case "$key" in
-    x|y|$'\e[D')  # cursor left
+    $'\e[D')  # cursor left
       echo left;;
 
-    x|y|$'\e[A')  # cursor up
+    $'\e[A')  # cursor up
       echo up;;
 
-    x|y|$'\e[B')  # cursor down
+    $'\e[B')  # cursor down
       echo down;;
 
-    x|y|$'\e[C')  # cursor right
+    $'\e[C')  # cursor right
       echo right;;
 
-    x|y|$'\n') # return character
+    $'\n') # return character
       echo enter;;
     ' ')  # space: mark/unmark item
       echo space;;
