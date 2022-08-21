@@ -1,37 +1,31 @@
 from blessed import Terminal
+from utils import printNoLB
+import signal, sys
+
 term = Terminal()
-import signal
-import sys
 signal.signal(signal.SIGINT, lambda x, y: sys.exit(0))
-# options = ["select branch", "status", "good", "bad"]
-options = [
-    "1", "2", "3",
-    "4", "5","6",
-    "7", "8", "9",
-    "10","11", "12",
-    "13", "14"
-]
 
 keyPressed = ""
 selectedOption = 0
-x, y = 0, 0
 COLUMNS = 3
 ITEM_WIDTH = term.width // COLUMNS
 
-def printOptions():
+def printOptions(options, title):
+    print(term.home + term.center(term.black_on_skyblue(f'  {title}  ')))
+    ROWS = len(options) // COLUMNS
     for i in range(len(options)):        
         x = ITEM_WIDTH * (i % COLUMNS)
         y = i // COLUMNS
-        print(term.move_xy(x, y + 1), end='')
+        printNoLB(term.move_xy(x, y + 1))
         if (i == selectedOption):
-            print(term.reverse(options[i]), end='')
+            printNoLB(term.reverse(options[i]))
         else:
-            print(options[i], end='')
-    print(term.home + term.black_on_darkkhaki(term.center('Select Action')))
+            printNoLB(options[i])
+    # navigate to the end of the options
+    print(term.move_y(ROWS + 1))
 
-def handleKeyPress():
-    global selectedOption
-    global keyPressed
+def handleKeyPress(options):
+    global selectedOption, keyPressed
     if keyPressed == "KEY_LEFT" and selectedOption % COLUMNS != 0:
         selectedOption = (selectedOption - 1) % len(options)
     if keyPressed == "KEY_RIGHT" and selectedOption % COLUMNS != (COLUMNS - 1) and selectedOption != len(options) - 1:
@@ -43,22 +37,17 @@ def handleKeyPress():
     if keyPressed == "KEY_ENTER":
         return options[selectedOption]
 
-def paint():
-    returnValue = handleKeyPress()
-    printOptions()
-    print(term.home)
+def paint(options, title = ""):
+    returnValue = handleKeyPress(options)
+    printOptions(options, title)
     return returnValue
 
-def selectFromOptions(options = []):
-    if len(options) != 0:
-        options = options
+def selectFromOptions(options = [], title = ""):
     with term.cbreak(), term.hidden_cursor():
         print(term.clear)
         global keyPressed
         while True:
-            returnValue = paint()
+            returnValue = paint(options, title)
             if returnValue is not None:
-                break
+                return returnValue
             keyPressed = term.inkey().name
-
-selectFromOptions()
