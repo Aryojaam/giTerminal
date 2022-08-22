@@ -82,4 +82,4 @@ def createPR(gitDirectoryPath):
     branches = runCommand(f"ls -A {gitDirectoryPath}/refs/heads/").split('\n')
     baseBranch = selectFromOptions(options=branches, title="Select a base branch for the PR")
     # need to use os.system since runcommand splits arguments
-    os.system(f'gh pr create -B {baseBranch} -t {ticket};{commitMessage} -b ""')
+    os.system(f'gh pr create -B {baseBranch} -t "{commitMessage};{ticket}" -b ""')
