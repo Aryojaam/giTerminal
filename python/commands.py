@@ -4,6 +4,7 @@ from helpers.utils import printNoLB, readline, runCommand
 from helpers.selectFromOptions import selectFromOptions
 from helpers.selectMultipleFromOptions import selectMultipleFromOptions
 term = Terminal()
+import json
 
 def isGitDirectory():
     return runCommand("git rev-parse --is-inside-work-tree")
@@ -21,10 +22,10 @@ def selectBranch(gitDirectoryPath):
     runCommand(f"git checkout {selected}")
 
 def selectRemoteBranch(gitDirectoryPath):
-    print("fetching all remotes please wait...")
-    runCommand("git fetch --all -q")
     remotes = runCommand(f"ls -A {gitDirectoryPath}/refs/remotes/").split('\n')
     remote = selectFromOptions(options=remotes, title="Select remote")
+    print(f"fetching remote branche {term.bold(term.darkgreen(remote))}. Please wait...")
+    runCommand(f"git fetch {remote}")
     branches = runCommand(f"ls -A {gitDirectoryPath}/refs/remotes/{remote}").split('\n')
     selected = selectFromOptions(options=branches, title="Select branch")
     runCommand(f"git checkout {selected}")
@@ -37,7 +38,7 @@ def deleteMultipleBranch(gitDirectoryPath):
         title=f"Currenty on branch {term.bold(term.darkgreen(currentBranch))}. Mark branches with Space-key and then press return to delete them"
     )
     for s in selected:
-        runCommand(f"git branch -D {s.replace('*', '')}")
+        print(runCommand(f"git branch -D {s.replace('*', '')}"))
 
 def makeYNChoice(choice):
     printNoLB(choice)
@@ -86,3 +87,12 @@ def createPR(gitDirectoryPath):
     baseBranch = selectFromOptions(options=branches, title="Select a base branch for the PR")
     # need to use os.system since runcommand splits arguments
     os.system(f'gh pr create -B {baseBranch} -t "{commitMessage};{ticket}" --body ""')
+
+def mergePR(gitDirectoryPath):
+    openPullRequests = runCommand("gh pr list --json title,number")
+    parsed = json.loads(openPullRequests)
+    pullRequestTitle = []
+    for p in parsed:
+        pullRequestTitle.append(str(p.get('number')))
+    number = selectFromOptions(options=pullRequestTitle, title="Select pr number")
+    print(runCommand(f"gh pr merge {number} --delete-branch -s --auto"))
