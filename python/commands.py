@@ -46,7 +46,8 @@ def makeYNChoice(choice):
         print(value)
         return value == "y" or value == "Y"
 
-def createPR(gitDirectoryPath):
+
+def commitAndPush(gitDirectoryPath):
     currentBranch = getCurrentBranch()
     # change branch if needed
     if (currentBranch == "master" or currentBranch == "staging"):
@@ -74,9 +75,11 @@ def createPR(gitDirectoryPath):
         runCommand("git push")
     else:
         runCommand(f"git push -u origin {currentBranch}")
+    return commitMessage
 
-
-    print("Please enter a ticket number")
+def createPR(gitDirectoryPath):
+    commitMessage = commitAndPush(gitDirectoryPath)
+    print("\nPlease enter a ticket number")
     ticket = readline(term=term)
 
     branches = runCommand(f"ls -A {gitDirectoryPath}/refs/heads/").split('\n')
