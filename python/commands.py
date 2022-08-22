@@ -79,7 +79,7 @@ def createPR(gitDirectoryPath):
     print("Please enter a ticket number")
     ticket = readline(term=term)
 
-    branches = runCommand(f"ls -A {gitDirectoryPath}/refs/heads/")
-    baseBranch = selectFromOptions(options=branches, title="Select a base branch for the PR").split('\n')
+    branches = runCommand(f"ls -A {gitDirectoryPath}/refs/heads/").split('\n')
+    baseBranch = selectFromOptions(options=branches, title="Select a base branch for the PR")
     # need to use os.system since runcommand splits arguments
-    os.system(f'gh pr create -B {baseBranch} -t {ticket};{commitMessage}')
+    os.system(f'gh pr create -B {baseBranch} -t {ticket};{commitMessage} -b ""')
