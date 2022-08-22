@@ -11,7 +11,7 @@ if (not isGitDirectory):
 
 gitDirectoryPath = runCommand("git rev-parse --git-dir")
 
-options = ["Select branch", "Select remote branch", "Delete multiple branches"]
+options = ["Select branch", "Select remote branch", "Delete multiple branches", "Create PR"]
 option = selectFromOptions(options=options, title="Welcome to giTerminal! What do you wanna do?")
 
 if (option == options[0]):
@@ -20,3 +20,5 @@ if (option == options[1]):
     commands.selectRemoteBranch(gitDirectoryPath)
 if (option == options[2]):
     commands.deleteMultipleBranch(gitDirectoryPath)
+if (option == options[3]):
+    commands.createPR(gitDirectoryPath)
