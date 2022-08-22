@@ -64,8 +64,8 @@ def commitAndPush(gitDirectoryPath):
             runCommand("git add .")
 
     print("Please enter a commit message")
-    commitMessage = readline(term=term)
-    runCommand('git commit -am "{commitMessage}"')
+    # commitMessage = readline(term=term)
+    runCommand('git commit -am createprcommand')
 
     # shouldPush = makeYNChoice("Changes committed successfully. Would you like to push these changes? y/n ")
     # if (shouldPush):
