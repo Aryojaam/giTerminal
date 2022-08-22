@@ -46,7 +46,7 @@ def makeYNChoice(choice):
         print(value)
         return value == "y" or value == "Y"
 
-def commitAndPush(gitDirectoryPath):
+def createPR(gitDirectoryPath):
     currentBranch = getCurrentBranch()
     # change branch if needed
     if (currentBranch == "master" or currentBranch == "staging"):
@@ -66,10 +66,9 @@ def commitAndPush(gitDirectoryPath):
 
     print("Please enter a commit message")
     commitMessage = readline(term=term)
+    # need to use os.system since runCommand splits arguments
     os.system(f'git commit -am "{commitMessage}"')
 
-    # shouldPush = makeYNChoice("Changes committed successfully. Would you like to push these changes? y/n ")
-    # if (shouldPush):
     originRemoteBranches = runCommand(f"ls -A {gitDirectoryPath}/refs/remotes/origin/").split('\n')
     if currentBranch in originRemoteBranches:
         runCommand("git push")
@@ -77,34 +76,10 @@ def commitAndPush(gitDirectoryPath):
         runCommand(f"git push -u origin {currentBranch}")
 
 
-def createPR(gitDirectoryPath):
-    commitAndPush(gitDirectoryPath)
+    print("Please enter a ticket number")
+    ticket = readline(term=term)
 
-# if `git status | grep -q Untracked > /dev/null`; then
-#     echo "You have untracked files, would you like to stage them? y/n"
-#     read -e shouldStage
-#     if [ "$shouldStage" = 'y' ] || [ "$shouldStage" = 'Y' ]; then
-#         git add .
-#     fi
-# fi
-
-# # repeat until input is not empty
-# commitMessage=
-# while [[ $commitMessage = "" ]]; do
-#     echo "Please enter a commit message"
-#     read -e commitMessage
-# done
-
-# git commit -am "$commitMessage"
-
-# echo "Changes commited successfully. Would you like to push these changes? y/n"
-# read -e shouldPush
-# if [ "$shouldPush" = 'y' ] || [ "$shouldPush" = 'Y' ]; then
-#     if git status | grep origin/; then
-#             git push
-#     else
-#             branch="$(git status | grep branch | cut -c 11-)"
-#             git push -u origin ${branch}
-#     fi
-# fi
-# }
+    branches = runCommand(f"ls -A {gitDirectoryPath}/refs/heads/")
+    baseBranch = selectFromOptions(options=branches, title="Select a base branch for the PR")
+    # need to use os.system since runcommand splits arguments
+    os.system(f'gh pr create -B {baseBranch} -t {ticket};{commitMessage}')
