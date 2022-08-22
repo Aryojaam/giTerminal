@@ -1,3 +1,5 @@
+#!/usr/bin/python3
+
 from helpers.utils import runCommand
 from helpers.selectFromOptions import selectFromOptions
 import commands as commands
