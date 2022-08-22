@@ -1,12 +1,20 @@
-from utils import runCommand
-from selectFromOption import selectFromOptions
+from helpers.utils import runCommand
+from helpers.selectFromOptions import selectFromOptions
+import commands as commands
 
-isGitDirectory = runCommand("git rev-parse --is-inside-work-tree")
+isGitDirectory = commands.isGitDirectory()
 if (not isGitDirectory):
     print("This is not a git repository. Exiting... Bye :(")
     exit(1)
 
 gitDirectoryPath = runCommand("git rev-parse --git-dir")
-currentBranch = runCommand("git rev-parse --abbrev-ref HEAD")
-branches = runCommand(f"ls -A {gitDirectoryPath}/refs/heads/").replace(currentBranch, f"*{currentBranch}").split('\n')
-branch = selectFromOptions(options = branches, title="Select a branch to checkout")
+
+options = ["Select branch", "Select remote branch", "Delete multiple branches"]
+option = selectFromOptions(options=options, title="Welcome to giTerminal! What do you wanna do?")
+
+if (option == options[0]):
+    commands.selectBranch(gitDirectoryPath)
+if (option == options[1]):
+    commands.selectRemoteBranch(gitDirectoryPath)
+if (option == options[2]):
+    commands.deleteMultipleBranch(gitDirectoryPath)
