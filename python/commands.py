@@ -1,3 +1,4 @@
+import os
 from blessed import Terminal
 from helpers.utils import printNoLB, readline, runCommand
 from helpers.selectFromOptions import selectFromOptions
@@ -64,8 +65,8 @@ def commitAndPush(gitDirectoryPath):
             runCommand("git add .")
 
     print("Please enter a commit message")
-    # commitMessage = readline(term=term)
-    runCommand('git commit -am createprcommand')
+    commitMessage = readline(term=term)
+    os.system(f'git commit -am "{commitMessage}"')
 
     # shouldPush = makeYNChoice("Changes committed successfully. Would you like to push these changes? y/n ")
     # if (shouldPush):
