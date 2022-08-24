@@ -21,7 +21,7 @@ def printOptions(options, title):
         printNoLB(term.move_xy(x, y + 1))
         item = options[i]
         if (item in markedOptions):
-            item = "☒ " + item
+            item = "✔ " + item
         else:
             item = "□ " + item
         if (i == selectedOption):

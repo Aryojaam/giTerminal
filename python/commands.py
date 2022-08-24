@@ -91,8 +91,17 @@ def createPR(gitDirectoryPath):
 def mergePR(gitDirectoryPath):
     openPullRequests = runCommand("gh pr list --json title,number")
     parsed = json.loads(openPullRequests)
-    pullRequestTitle = []
+    pullRequests = []
     for p in parsed:
-        pullRequestTitle.append(str(p.get('number')))
-    number = selectFromOptions(options=pullRequestTitle, title="Select pr number")
-    print(runCommand(f"gh pr merge {number} --delete-branch -s --auto"))
+        pullRequests.append(str(p.get('number')))
+    number = selectFromOptions(options=pullRequests, title="Select pr number to merge")
+    os.system(f"gh pr merge {number} --delete-branch -s --auto")
+
+def approvePR(gitDirectoryPath):
+    openPullRequests = runCommand("gh pr list --json title,number")
+    parsed = json.loads(openPullRequests)
+    pullRequests = []
+    for p in parsed:
+        pullRequests.append(str(p.get('number')))
+    number = selectFromOptions(options=pullRequests, title="Select pr number to approve")
+    os.system(f"gh pr review {number} -a")
