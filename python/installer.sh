@@ -5,7 +5,7 @@ mainDirectory=".giterminal"
 rcFile=~/".bashrc"
 if bash --version | grep -q darwin
 then 
-   rcFile=~/".bash_profile"
+   rcFile=~/".zshrc"
 fi
 
 mainAlias="alias giterminal='$(pwd)/term.py'"

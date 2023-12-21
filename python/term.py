@@ -21,7 +21,8 @@ if (len(sys.argv) == 1):
         "Create PR",
         "Merge PR",
         "Approve PR",
-        "Commit and push"
+        "Commit and push",
+        "Create Release"
     ]
     option = selectFromOptions(options=options, title="Welcome to giTerminal! What do you wanna do?")
 
@@ -39,6 +40,8 @@ if (len(sys.argv) == 1):
         commands.approvePR(gitDirectoryPath)
     if (option == options[6]):
         commands.commitAndPush(gitDirectoryPath)
+    if (option == options[7]):
+        commands.createRelease(gitDirectoryPath)
 else: 
     parser = argparse.ArgumentParser()
     

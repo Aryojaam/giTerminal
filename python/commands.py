@@ -22,10 +22,10 @@ def selectBranch(gitDirectoryPath):
     runCommand(f"git checkout {selected}")
 
 def selectRemoteBranch(gitDirectoryPath):
+    runCommand(f"git fetch --all")
+    print(f"fetching remote branches. Please wait...")
     remotes = runCommand(f"ls -A {gitDirectoryPath}/refs/remotes/").split('\n')
     remote = selectFromOptions(options=remotes, title="Select remote")
-    print(f"fetching remote branche {term.bold(term.darkgreen(remote))}. Please wait...")
-    runCommand(f"git fetch {remote}")
     branches = runCommand(f"ls -A {gitDirectoryPath}/refs/remotes/{remote}").split('\n')
     selected = selectFromOptions(options=branches, title="Select branch")
     runCommand(f"git checkout {selected}")
@@ -89,19 +89,31 @@ def createPR(gitDirectoryPath):
     os.system(f'gh pr create -B {baseBranch} -t "{commitMessage};{ticket}" --body ""')
 
 def mergePR(gitDirectoryPath):
-    openPullRequests = runCommand("gh pr list --json title,number")
+    openPullRequests = runCommand("gh pr list --json title,number,author")
     parsed = json.loads(openPullRequests)
     pullRequests = []
     for p in parsed:
-        pullRequests.append(str(p.get('number')))
-    number = selectFromOptions(options=pullRequests, title="Select pr number to merge")
+        prNumber = str(p.get('number'))
+        prTitle = str(p.get('title'))
+        prAuthor = str(p.get('author').get('login'))
+        pullRequests.append(prNumber + " " + prAuthor + " " + prTitle)
+    selected = selectFromOptions(options=pullRequests, title="Select pr number to merge")
     os.system(f"gh pr merge {number} --delete-branch -s --auto")
 
 def approvePR(gitDirectoryPath):
-    openPullRequests = runCommand("gh pr list --json title,number")
+    openPullRequests = runCommand("gh pr list --json title,number,author")
     parsed = json.loads(openPullRequests)
     pullRequests = []
     for p in parsed:
-        pullRequests.append(str(p.get('number')))
-    number = selectFromOptions(options=pullRequests, title="Select pr number to approve")
+        prNumber = str(p.get('number'))
+        prTitle = str(p.get('title'))
+        prAuthor = str(p.get('author').get('login'))
+        pullRequests.append(prNumber + " " + prAuthor + " " + prTitle)
+    selected = selectFromOptions(options=pullRequests, title="Select pr number to approve")
+    number = selected.split()[0] # get the number
     os.system(f"gh pr review {number} -a")
+
+def createRelease(gitDirectoryPath):
+    print("Please enter a version number")
+    version = readline(term=term)
+    os.system(f"gh release create {version} --generate-notes")
